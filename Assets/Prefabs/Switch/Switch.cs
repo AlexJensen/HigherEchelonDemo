@@ -37,15 +37,34 @@ public class Switch : VisualCounter
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                // Convert mouse position to local position in the RectTransform
-                Vector2 localMousePos;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(lever, Input.mousePosition, null, out localMousePos);
+                PointerEventData eventData = new PointerEventData(EventSystem.current);
+                eventData.position = Input.mousePosition;
 
-                // Check if the local position is inside the RectTransform
-                if (lever.rect.Contains(localMousePos))
+                List<RaycastResult> results = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(eventData, results);
+
+                bool isBlockedByUIElement = false;
+                foreach (RaycastResult result in results)
                 {
-                    selecting = true;
-                    dragStartPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    if (result.gameObject != lever.gameObject && result.gameObject.GetComponentInParent<Canvas>() == GetComponentInParent<Canvas>())
+                    {
+                        isBlockedByUIElement = true;
+                        break;
+                    }
+                }
+
+                if (!isBlockedByUIElement)
+                {
+                    // Convert mouse position to local position in the RectTransform
+                    Vector2 localMousePos;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(lever, Input.mousePosition, null, out localMousePos);
+
+                    // Check if the local position is inside the RectTransform
+                    if (lever.rect.Contains(localMousePos))
+                    {
+                        selecting = true;
+                        dragStartPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    }
                 }
             }
         }
