@@ -8,7 +8,7 @@ public class Game : Singleton<Game>
     [SerializeField]
     int registeredInputMax;
     [SerializeField]
-    GameObject gameOverPanel;
+    GameObject gameOverPanel, blackScreenPanel;
     private int totalRegisteredInput = 0;
 
     public int TotalRegisteredInput
@@ -31,6 +31,6 @@ public class Game : Singleton<Game>
 
     public void Quit()
     {
-        Application.Quit();
+        blackScreenPanel.SetActive(true);
     }
 }
