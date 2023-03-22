@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class Circle : MonoBehaviour
+public class Circle : VisualCounter
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ButtonPressed()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Counter++;
+        Game.Instance.TotalRegisteredInput++;
     }
 }
